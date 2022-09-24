@@ -1,0 +1,10 @@
+qmgr = "${qmgr}"
+queue = "${queue}"
+
+from(bucket: "gilles")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "MQ Statistics")
+  |> filter(fn: (r) => r["QueueManager"] == qmgr)
+  |> filter(fn: (r) => r["QueueName"] == queue)
+  |> filter(fn: (r) => r["_field"] == "get_count_0" or r["_field"] == "get_count_1")
+  |> yield(name: "mean")

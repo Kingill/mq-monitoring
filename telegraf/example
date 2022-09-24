@@ -1,0 +1,59 @@
+{
+  "MonitoringType": "QueueStatistics",
+  "QueueStatistics": {
+    "QueueManager": "TEST",
+    "IntervalStartDate": 1663992107,
+    "IntervalStartTime": "15.07.44",
+    "IntervalEndDate": "2022-09-19",
+    "IntervalEndTime": "15.08.44",
+    "CommandLevel": 930,
+    "ObjectCount": 2,
+    "QueueStatistics": 1,
+    "QueueName": "SYSTEM.ADMIN.COMMAND.QUEUE",
+    "CreateDate": "2022-09-19",
+    "CreateTime": "14.42.04",
+    "QueueType": "Local",
+    "QueueDefinitionType": "Predefined",
+    "QMinDepth": 0,
+    "QMaxDepth": 0,
+    "AverageQueueTime": [
+      0,
+      0
+    ],
+    "PutCount": [
+      6,
+      0
+    ],
+    "PutFailCount": 0,
+    "Put1Count": [
+      0,
+      0
+    ],
+    "Put1FailCount": 0,
+    "PutBytes": [
+      216,
+      0
+    ],
+    "GetCount": [
+      6,
+      0
+    ],
+    "GetBytes": [
+      216,
+      0
+    ],
+    "GetFailCount": 0,
+    "BrowseCount": [
+      0,
+      0
+    ],
+    "BrowseBytes": [
+      0,
+      0
+    ],
+    "BrowseFailCount": 0,
+    "NonQueuedMsgCount": 6,
+    "ExpiredMsgCount": 0,
+    "PurgeCount": 0
+  }
+}

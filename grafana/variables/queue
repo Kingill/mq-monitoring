@@ -1,0 +1,6 @@
+from(bucket: "gilles")
+  |> range(start: -2y)
+  |> filter(fn: (r) => r["QueueManager"] =~ /^$qmgr$/)
+  |> group(columns: ["QueueName"])
+  |> distinct(column: "QueueName")
+  |> keep(columns: ["_value"])

@@ -1,3 +1,7 @@
+name: qmgr
+label: QueueManager
+type: Query
+
 from(bucket: "gilles")
   |> range(start: -2y)
   |> filter(fn: (r) => r["QueueManager"] =~ /^$qmgr$/)

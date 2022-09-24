@@ -1,0 +1,9 @@
+name: qmgr
+label: QueueManager
+type: Query
+
+from(bucket: "gilles")
+  |> range(start: -2y)
+  |> group(columns: ["QueueManager"])
+  |> distinct(column: "QueueManager")
+  |> keep(columns: ["_value"])

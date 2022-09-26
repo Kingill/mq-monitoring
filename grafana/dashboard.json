@@ -74,15 +74,15 @@
           {
             "matcher": {
               "id": "byFrameRefID",
-              "options": "B"
+              "options": "A"
             },
             "properties": []
           }
         ]
       },
       "gridPos": {
-        "h": 11,
-        "w": 14,
+        "h": 17,
+        "w": 10,
         "x": 0,
         "y": 0
       },
@@ -101,7 +101,7 @@
         "showValue": "auto",
         "stacking": "none",
         "tooltip": {
-          "mode": "multi",
+          "mode": "single",
           "sort": "none"
         },
         "xField": "Time",
@@ -114,11 +114,99 @@
             "type": "influxdb",
             "uid": "_yPIZF74z"
           },
-          "query": "qmgr = \"${qmgr}\"\nqueue = \"${queue}\"\n\nfrom(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == qmgr)\n  |> filter(fn: (r) => r[\"_field\"] == \"put_count_0\" or r[\"_field\"] == \"put_count_1\")\n  |> yield(name: \"mean\")",
+          "query": "qmgr = \"${qmgr}\"\nqueue = \"${queue}\"\n\nfrom(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == qmgr)\n  |> filter(fn: (r) => r[\"_field\"] == \"put_count_0\" or r[\"_field\"] == \"put_count_1\")\n  //|> map(fn: (r) => ({_value: r._value, _time: r._time, QueueName: r.QueueName}))  // util pour afficher la legende dans grafana\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
       "title": "Put ",
+      "transformations": [],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "_yPIZF74z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "messages",
+            "axisPlacement": "auto",
+            "fillOpacity": 67,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 10,
+        "x": 10,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "colorByField": "_QueueName",
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "_time",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "_yPIZF74z"
+          },
+          "query": "from(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == \"TEST\")\n  |> filter(fn: (r) => r[\"_field\"] == \"put_count_0\" or r[\"_field\"] == \"put_count_1\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({r with _value: r.put_count_0 + r.put_count_1 }))\n  |> map(fn: (r) => ({_time: r._time,_QueueName: r.QueueName, _value: r._value}))  // util pour afficher la legende dans grafana\n\n//  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Somme des Put ",
       "transformations": [],
       "type": "barchart"
     },
@@ -167,12 +255,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 18,
-        "w": 15,
+        "h": 17,
+        "w": 10,
         "x": 0,
-        "y": 11
+        "y": 17
       },
-      "id": 3,
+      "id": 5,
       "options": {
         "barRadius": 0,
         "barWidth": 0.97,
@@ -187,7 +275,7 @@
         "showValue": "auto",
         "stacking": "none",
         "tooltip": {
-          "mode": "multi",
+          "mode": "single",
           "sort": "none"
         },
         "xField": "Time",
@@ -200,7 +288,159 @@
             "type": "influxdb",
             "uid": "_yPIZF74z"
           },
-          "query": "qmgr = \"${qmgr}\"\nqueue = \"${queue}\"\n\nfrom(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == qmgr)\n  |> filter(fn: (r) => r[\"QueueName\"] == queue)\n  |> filter(fn: (r) => r[\"_field\"] == \"put_count_0\" or r[\"_field\"] == \"put_count_1\")\n  |> yield(name: \"mean\")",
+          "query": "qmgr = \"${qmgr}\"\nqueue = \"${queue}\"\n\nfrom(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == qmgr)\n  |> filter(fn: (r) => r[\"_field\"] == \"get_count_0\" or r[\"_field\"] == \"get_count_1\")\n  //|> map(fn: (r) => ({_value: r._value, _time: r._time, QueueName: r.QueueName}))  // util pour afficher la legende dans grafana\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Get",
+      "transformations": [],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "_yPIZF74z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 10,
+        "x": 10,
+        "y": 17
+      },
+      "id": 7,
+      "options": {
+        "displayLabels": [
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "_yPIZF74z"
+          },
+          "query": "from(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == \"TEST\")\n  |> filter(fn: (r) => r[\"_field\"] == \"put_count_0\" or r[\"_field\"] == \"put_count_1\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({r with _value: r.put_count_0 + r.put_count_1 }))\n  |> sum()\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Somme des Put ",
+      "transformations": [],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "_yPIZF74z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "messages",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 14,
+        "x": 0,
+        "y": 34
+      },
+      "id": 3,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Time",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "_yPIZF74z"
+          },
+          "query": "qmgr = \"${qmgr}\"\nqueue = \"${queue}\"\n\nfrom(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == qmgr)\n  |> filter(fn: (r) => r[\"QueueName\"] == queue)\n  |> filter(fn: (r) => r[\"_field\"] == \"put_count_0\" or r[\"_field\"] == \"put_count_1\")\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, QueueName: r.QueueName}))  // util pour afficher la legende dans grafana\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -250,13 +490,29 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "get_count_1 {QueueManager=\"TEST\", QueueName=\"QL.TEST.2\", name=\"MQ Statistics\"}"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#F2CC0C",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 18,
-        "w": 15,
+        "h": 6,
+        "w": 14,
         "x": 0,
-        "y": 29
+        "y": 45
       },
       "id": 4,
       "options": {
@@ -286,7 +542,7 @@
             "type": "influxdb",
             "uid": "_yPIZF74z"
           },
-          "query": "qmgr = \"${qmgr}\"\nqueue = \"${queue}\"\n\nfrom(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == qmgr)\n  |> filter(fn: (r) => r[\"QueueName\"] == queue)\n  |> filter(fn: (r) => r[\"_field\"] == \"get_count_0\" or r[\"_field\"] == \"get_count_1\")\n  |> yield(name: \"mean\")",
+          "query": "qmgr = \"${qmgr}\"\nqueue = \"${queue}\"\n\nfrom(bucket: \"gilles\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MQ Statistics\")\n  |> filter(fn: (r) => r[\"QueueManager\"] == qmgr)\n  |> filter(fn: (r) => r[\"QueueName\"] == queue)\n  |> filter(fn: (r) => r[\"_field\"] == \"get_count_0\" or r[\"_field\"] == \"get_count_1\")\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, QueueName: r.QueueName}))  // util pour afficher la legende dans grafana\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -323,8 +579,8 @@
       {
         "current": {
           "selected": true,
-          "text": "SYSTEM.ADMIN.COMMAND.QUEUE",
-          "value": "SYSTEM.ADMIN.COMMAND.QUEUE"
+          "text": "QL.TEST.2",
+          "value": "QL.TEST.2"
         },
         "definition": "from(bucket: \"gilles\")\n  |> range(start: -2y)\n  |> filter(fn: (r) => r[\"QueueManager\"] =~ /^$qmgr$/)\n  |> group(columns: [\"QueueName\"])\n  |> distinct(column: \"QueueName\")\n  |> keep(columns: [\"_value\"])",
         "hide": 0,
@@ -343,13 +599,13 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "New dashboard",
   "uid": "MGKMg_7Vz",
-  "version": 23,
+  "version": 33,
   "weekStart": ""
 }

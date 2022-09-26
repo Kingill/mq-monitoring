@@ -4,3 +4,20 @@ from(bucket: "gilles")
   |> filter(fn: (r) => r["_field"] == "put_count_0" or r["_field"] == "put_count_1")
   |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
   |> sum()
+
+
+
+
+
+
+
+from(bucket: "gilles")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "MQ Statistics")
+  |> filter(fn: (r) => r["QueueManager"] == "TEST")
+  |> filter(fn: (r) => r["QueueName"] == "QL.TEST")
+  |> filter(fn: (r) => r["_field"] == "put_count_0" or r["_field"] == "put_count_1")
+  |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
+  |> map(fn: (r) => ({r with _value: r.put_count_0 + r.put_count_1 }))
+  |> sum()
+  |> yield(name: "mean")

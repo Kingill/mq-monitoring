@@ -1,0 +1,120 @@
+[
+  {
+    "MonitoringType": "QueueStatistics",
+    "QueueStatistics": {
+      "QueueManager": "TEST",
+      "IntervalStartDate": 1663992107,
+      "IntervalStartTime": "12.27.51",
+      "IntervalEndDate": "2022-09-22",
+      "IntervalEndTime": "12.26.51",
+      "CommandLevel": 930,
+      "ObjectCount": 8,
+      "QueueStatistics": 7,
+      "QueueName": "QL.TEST.2",
+      "CreateDate": "2022-09-19",
+      "CreateTime": "14.42.04",
+      "QueueType": "Local",
+      "QueueDefinitionType": "Predefined",
+      "QMinDepth": 0,
+      "QMaxDepth": 1,
+      "AverageQueueTime": [
+        164,
+        1478
+      ],
+      "PutCount": [
+        1,
+        1
+      ],
+      "PutFailCount": 0,
+      "Put1Count": [
+        0,
+        0
+      ],
+      "Put1FailCount": 0,
+      "PutBytes": [
+        5048,
+        212
+      ],
+      "GetCount": [
+        1,
+        1
+      ],
+      "GetBytes": [
+        5048,
+        212
+      ],
+      "GetFailCount": 1,
+      "BrowseCount": [
+        0,
+        0
+      ],
+      "BrowseBytes": [
+        0,
+        0
+      ],
+      "BrowseFailCount": 0,
+      "NonQueuedMsgCount": 0,
+      "ExpiredMsgCount": 0,
+      "PurgeCount": 0
+    }
+  },
+  {
+    "MonitoringType": "QueueStatistics",
+    "QueueStatistics": {
+      "QueueManager": "TEST",
+      "IntervalStartDate": 1664145000,
+      "IntervalStartTime": "12.27.51",
+      "IntervalEndDate": "2022-09-22",
+      "IntervalEndTime": "12.27.51",
+      "CommandLevel": 930,
+      "ObjectCount": 8,
+      "QueueStatistics": 7,
+      "QueueName": "QL.TEST",
+      "CreateDate": "2022-09-19",
+      "CreateTime": "14.42.04",
+      "QueueType": "Local",
+      "QueueDefinitionType": "Predefined",
+      "QMinDepth": 0,
+      "QMaxDepth": 1,
+      "AverageQueueTime": [
+        615,
+        1219
+      ],
+      "PutCount": [
+        1,
+        1
+      ],
+      "PutFailCount": 0,
+      "Put1Count": [
+        0,
+        0
+      ],
+      "Put1FailCount": 0,
+      "PutBytes": [
+        5048,
+        212
+      ],
+      "GetCount": [
+        1,
+        1
+      ],
+      "GetBytes": [
+        5048,
+        212
+      ],
+      "GetFailCount": 1,
+      "BrowseCount": [
+        0,
+        0
+      ],
+      "BrowseBytes": [
+        0,
+        0
+      ],
+      "BrowseFailCount": 0,
+      "NonQueuedMsgCount": 0,
+      "ExpiredMsgCount": 0,
+      "PurgeCount": 0
+    }
+  }
+]

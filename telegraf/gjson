@@ -1,0 +1,17 @@
+{qs:{p10:#.QueueStatistics.PutCount.1,t:#.QueueStatistics.IntervalStartDate}.@group}
+
+=> {"qs":[{"p10":1,"t":1663992107},{"p10":22,"t":1664145000}]}
+
+
+
+[[inputs.file]]
+    files = ["./test2.json"]
+    data_format = "json_v2"
+    [[inputs.file.json_v2]]
+        measurement_name = "MQ Monitoring"
+        [[inputs.file.json_v2.object]]
+            path = "{qs:{p10:#.QueueStatistics.PutCount.1,t:#.QueueStatistics.IntervalStartDate}.@group}"
+            disable_prepend_keys = true
+            timestamp_format = "unix"
+            timestamp_key = "qs.t"
+

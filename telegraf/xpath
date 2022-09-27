@@ -1,0 +1,13 @@
+[[inputs.file]]
+    files = ["./test2.json"]
+    data_format = "xpath_json"
+
+    [[inputs.file.xpath]]
+      metric_selection = "//datapoints/*"
+      metric_name = "'gridradar'"
+      timestamp = "descendant::*[2]"
+      timestamp_format = "2006-01-02 15:04:05"
+      [inputs.file.xpath.tags]
+        target = "//target"
+      [inputs.file.xpath.fields]
+         value = "number(descendant::*[1])"

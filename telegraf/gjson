@@ -8,7 +8,7 @@
     files = ["/etc/telegraf/input_mq.json"]
     data_format = "json_v2"
     [[inputs.file.json_v2]]
-        measurement_name = "MQ Monitoring"
+        measurement_name = "MQ Statistics"
         [[inputs.file.json_v2.object]]
             path = "{qs:{p10:#.QueueStatistics.PutCount.1,t:#.QueueStatistics.IntervalStartDate}.@group}"
             disable_prepend_keys = true

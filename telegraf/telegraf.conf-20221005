@@ -1,0 +1,27 @@
+[[outputs.influxdb_v2]]
+  urls = ["http://192.168.1.20:8086"]
+  token = "p97Wv_Ws1K_EIc0QzYozglZxiv3ictfeewF_VKUwLznJCiBuFegH4w2oBIE0HF-PJKHcGvzjVn0gJRVsthBslg=="
+  organization = "teslamate"
+  bucket = "gilles"
+
+[[outputs.file]]
+  files = ["stdout"]
+  data_format = "influx"
+
+
+
+[[inputs.file]]
+    files = ["/etc/telegraf/example"]
+    tagexclude = ["url", "host"]
+    data_format = "json_v2"
+        [[inputs.file.json_v2]]
+            [[inputs.file.json_v2.object]]
+            path = "@this"
+            timestamp_key = "QueueStatistics_IntervalStartDate"
+            timestamp_format = "unix"
+            included_keys = [
+                "QueueStatistics_IntervalStartDate",
+                "QueueStatistics_PutCount"
+            ]
+            tags = ["QueueStatistics_QueueManager", "QueueStatistics_QueueName"]
+            disable_prepend_keys = true

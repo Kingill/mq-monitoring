@@ -1,0 +1,16 @@
+data = from(bucket: "test")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "MQ Statistics")
+  |> filter(fn: (r) => r["_field"] == "AverageQueueTime")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+
+data
+  |> set(key: "_measurement", value: "my_new_measurement")
+  |> to(
+  bucket: "test-put",
+  org: "teslamate",
+  timeColumn: "_time",
+  tagColumns: ["QueueManager","QueueName"],
+  fieldFn: (r) => ({ "PutCount": r.PutCount })
+)
